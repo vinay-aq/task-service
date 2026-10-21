@@ -30,7 +30,7 @@ public class UserResponse {
         private String email;
         private String passwordHash;
         private Long roleId;
-        private Boolean inActive;
+        private Boolean isActive;
         private String createdAt;
         private String updatedAt;
 
@@ -70,12 +70,12 @@ public class UserResponse {
             this.roleId = roleId;
         }
 
-        public Boolean getInActive() {
-            return inActive;
+        public Boolean getIsActive() {
+            return isActive;
         }
 
-        public void setInActive(Boolean inActive) {
-            this.inActive = inActive;
+        public void setIsActive(Boolean isActive) {
+            this.isActive = isActive;
         }
 
         public String getCreatedAt() {

@@ -36,7 +36,10 @@ public class TaskService {
             throw new ResourceNotFoundException("Client not found");
         }
         try {
-            UserResponse user = nodeUserClient.getUserById(request.getAssignedTo());
+            UserResponse resp = nodeUserClient.getUserById(request.getAssignedTo());
+            if (!Boolean.TRUE.equals(resp.getUser().getIsActive())) {
+                throw new IllegalArgumentException("Cannot assign to illegal user");
+            }
         } catch (FeignException.NotFound exception) {
             throw new ResourceNotFoundException("Assigned user not found");
         }
@@ -72,7 +75,20 @@ public class TaskService {
     }
 
     public Task updateTask(Long taskId, UpdateTaskRequest taskBody) {
+
         Task task = taskRepository.findById(taskId).orElseThrow(() -> new ResourceNotFoundException("Task not found"));
+
+        try {
+            UserResponse resp = nodeUserClient.getUserById(taskBody.getAssignedTo());
+
+            if (!Boolean.TRUE.equals(resp.getUser().getIsActive())) {
+                throw new IllegalArgumentException("Cannot assign to illegal user");
+            }
+
+        } catch (FeignException.NotFound exception) {
+            throw new ResourceNotFoundException("Assigned user not found");
+        }
+
         task.setTitle(taskBody.getTitle());
         task.setDescription(taskBody.getDescription());
         task.setAssignedTo(taskBody.getAssignedTo());
