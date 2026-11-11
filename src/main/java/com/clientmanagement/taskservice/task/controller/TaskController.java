@@ -7,6 +7,8 @@ import com.clientmanagement.taskservice.task.dto.CreateTaskRequest;
 import com.clientmanagement.taskservice.task.dto.UpdateTaskRequest;
 import com.clientmanagement.taskservice.task.dto.UpdateTaskStatus;
 import com.clientmanagement.taskservice.task.entity.Task;
+import com.clientmanagement.taskservice.task.entity.TaskPriority;
+import com.clientmanagement.taskservice.task.entity.TaskStatus;
 import com.clientmanagement.taskservice.task.service.TaskService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -70,6 +72,14 @@ public class TaskController {
     @GetMapping("/testNode/{clientId}")
     public ClientResponse testNode(@PathVariable Long clientId) {
         return nodeClientClient.getClientById(clientId);
+    }
+
+    @GetMapping("/client/{clientId}/filter")
+    public List<Task> filterTaskByClientId(@PathVariable Long clientId, @RequestParam TaskStatus status, @RequestParam TaskPriority priority) {
+        if(status != null && priority !==null) {
+
+        }
+        return taskService.filterTasksByClientIdAndFilters(clientId, status, priority);
     }
 
 

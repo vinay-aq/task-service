@@ -8,6 +8,7 @@ import com.clientmanagement.taskservice.common.exception.ResourceNotFoundExcepti
 import com.clientmanagement.taskservice.task.dto.CreateTaskRequest;
 import com.clientmanagement.taskservice.task.dto.UpdateTaskRequest;
 import com.clientmanagement.taskservice.task.entity.Task;
+import com.clientmanagement.taskservice.task.entity.TaskPriority;
 import com.clientmanagement.taskservice.task.entity.TaskStatus;
 import com.clientmanagement.taskservice.task.respository.TaskRepository;
 import feign.FeignException;
@@ -105,6 +106,11 @@ public class TaskService {
 
     public List<Task> getTaskByAssignedUser(Long userId) {
         return taskRepository.findByAssignedTo(userId);
+    }
+
+    public List<Task> filterTasksByClientIdAndFilters(Long clientId, TaskStatus status, TaskPriority priority) {
+
+        return taskRepository.findByClientId(clientId);
     }
 
 }
